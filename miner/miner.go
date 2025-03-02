@@ -18,7 +18,7 @@ func StartMining(bc *core.Blockchain, mp *mempool.Mempool, store *storage.BlockS
 	go func() {
 		for range ticker.C {
 			txs := mp.GetTransactions()
-			if len(txs) == 0 {
+			if len(txs) > 0 {
 				newBlock := bc.AddBlock(txs)
 				if err := store.SaveBlock(newBlock); err != nil {
 					log.Printf("Failed to save block: %v", err)
