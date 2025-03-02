@@ -1,6 +1,8 @@
 package core
 
-import "time"
+import (
+	"time"
+)
 
 // Blockchain is a struct that represents a blockchain.
 // It contains the blocks and the difficulty.
