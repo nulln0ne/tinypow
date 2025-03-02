@@ -1,7 +1,6 @@
 package core
 
 import (
-	"encoding/hex"
 	"strconv"
 	"time"
 )
@@ -16,15 +15,21 @@ type Transaction struct {
 	Hash      string `json:"hash"`
 }
 
+// getTransactionRecord returns a string representation of a transaction.
+// It takes a Transaction object and returns a string.
+// The string is a concatenation of the transaction's sender, recipient, amount, and timestamp.
+func getTransactionRecord(tx Transaction) string {
+	return tx.Sender + tx.Recipient + strconv.Itoa(tx.Amount) + strconv.FormatInt(tx.Timestamp, 10)
+}
+
 // CalculateHash calculates the hash of the transaction.
 // It takes a pointer to a Transaction and returns a string.
 // The hash is calculated using the SHA-256 hashing algorithm.
 // The hash is encoded to a hexadecimal string.
 func (tx *Transaction) CalculateHash() string {
-	record := tx.Sender + tx.Recipient + strconv.Itoa(tx.Amount) + strconv.FormatInt(tx.Timestamp, 10)
-	hash := Sha256([]byte(record))
+	record := getTransactionRecord(*tx)
 
-	return hex.EncodeToString(hash[:])
+	return Sha256Hash(record)
 }
 
 // NewTransaction creates a new transaction.
