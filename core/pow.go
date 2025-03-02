@@ -22,20 +22,27 @@ func NewProofOfWork(difficulty int) *ProofOfWork {
 	}
 }
 
+// isValidHash checks if the hash is valid.
+// It takes a hash and returns a boolean.
+// The hash is valid if it is less than the target.
+func (pow *ProofOfWork) isValidHash(hash string) bool {
+	hashInt := new(big.Int)
+	hashInt.SetString(hash, 16)
+	return hashInt.Cmp(pow.Target) == -1
+}
+
 // Mine mines a block.
 // It takes a pointer to a Block object and mines the block.
 // It returns the nonce and the hash of the block.
-func (pow *ProofOfWork) Mine(block *Block) {
+func (pow *ProofOfWork) Mine(block *Block) (int, string) {
 	for {
 		block.Nonce++
 		block.Hash = CalculateHash(*block)
-		hashInt := new(big.Int)
-		hashInt.SetString(block.Hash, 16)
-
-		if hashInt.Cmp(pow.Target) == -1 {
+		if pow.isValidHash(block.Hash) {
 			break
 		}
 	}
+	return block.Nonce, block.Hash
 }
 
 // Validate validates a block
