@@ -1,10 +1,10 @@
-# TinyPow
+# TinyPoW
 
 A lightweight Proof-of-Work blockchain implementation in Go.
 
 ## Overview
 
-TinyPow is a minimalist blockchain implementation that demonstrates the core principles of a blockchain with Proof-of-Work consensus. It includes implementations of:
+TinyPoW is a minimalist blockchain implementation that demonstrates the core principles of a blockchain with Proof-of-Work consensus. It includes implementations of:
 
 - Blockchain data structure
 - Blocks with transactions
