@@ -14,6 +14,22 @@ type Blockchain struct {
 // NewBlockchain creates a new blockchain.
 // It takes a difficulty and returns a pointer to a Blockchain.
 func NewBlockchain(difficulty int) *Blockchain {
+	bc := &Blockchain{
+		Difficulty: difficulty,
+	}
+	bc.insertGenesisBlock()
+	return bc
+}
+
+// GetLatestBlock returns the latest block in the blockchain.
+// It takes a pointer to a Blockchain and returns a pointer to a Block.
+func (bc *Blockchain) GetLatestBlock() *Block {
+	return &bc.Blocks[len(bc.Blocks)-1]
+}
+
+// insertGenesisBlock inserts the genesis block into the blockchain.
+// It takes a pointer to a Blockchain.
+func (bc *Blockchain) insertGenesisBlock() {
 	genesisBlock := Block{
 		Index:        0,
 		Timestamp:    time.Now().Unix(),
@@ -23,16 +39,7 @@ func NewBlockchain(difficulty int) *Blockchain {
 	}
 	genesisBlock.Hash = CalculateHash(genesisBlock)
 
-	return &Blockchain{
-		Blocks:     []Block{genesisBlock},
-		Difficulty: difficulty,
-	}
-}
-
-// GetLatestBlock returns the latest block in the blockchain.
-// It takes a pointer to a Blockchain and returns a pointer to a Block.
-func (bc *Blockchain) GetLatestBlock() *Block {
-	return &bc.Blocks[len(bc.Blocks)-1]
+	bc.Blocks = append(bc.Blocks, genesisBlock)
 }
 
 // AddBlock adds a new block to the blockchain.
